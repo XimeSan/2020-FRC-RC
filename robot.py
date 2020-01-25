@@ -4,9 +4,6 @@ from state import state
 import oi
 import time
 
-import wpilib
-from wpilib.drive import MecanumDrive
-import time
 
 class MyRobot(wpilib.TimedRobot):
 
