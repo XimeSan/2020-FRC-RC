@@ -31,10 +31,11 @@ class MyRobot(wpilib.TimedRobot):
 		# self.navx = navx.AHRS.create_spi()
 		# self.analog = wplib.AnalogInput(navx.getNavxAnalogInChannel(0))
 
-		#cannon
+		#cannon and sucker
 
 		self.cannon_motor_right = wpilib.Talon(4)
 		self.cannon_motor_left = wpilib.Talon(5)
+		self.sucker_motor = wpilib.Talon(6)
 
 		#cannon pneumatic
 		self.Compressor = wpilib.Compressor(0)
@@ -92,17 +93,17 @@ class MyRobot(wpilib.TimedRobot):
 		# if self.navx.getAngle() == 90:
 		# 		print("90°")
 
+		#sucker
+
+		self.sucker_motor.set(state["sucker_activated"])
+
+
 		#cannon
 
 		self.cannon_motor_right.set(state["cannon_motor_activated"])
 		self.cannon_motor_left.set(state["cannon_motor_activated"]*-1)
 
 		#pneumatics cannon
-
-		abilities_controller = wpilib.Joystick(0)
-
-	#cannon
-
 
 		self.cannon_piston.set(state["cannon_piston_activated"])
 

@@ -51,17 +51,27 @@ def read_abilities_inputs(control_port):
 	abilities_controller = wpilib.Joystick(control_port)
 
 	#cannon
+	
+	eje_t = abilities_controller.getZ()
 
 	left_shoulder_button = abilities_controller.getRawButton(4)
 
 	right_shoulder_button = abilities_controller.getRawButton(5)
 	state["cannon_piston_activated"] = right_shoulder_button
 
-	if left_shoulder_button:
+	if eje_t > 0:
 		print("hola funciono")
 		state["cannon_motor_activated"] = 0.7
 	else:
 		state["cannon_motor_activated"] = 0
+
+	if left_shoulder_button:
+		state["sucker_activited"] = 0.7
+	else:
+		state["sucker_activited"] = 0
+
+
+
 
 	
 
