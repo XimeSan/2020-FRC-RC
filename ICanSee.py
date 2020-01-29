@@ -6,8 +6,6 @@ import time
 
 class VideoRecorder():
 	def __init__(self):
-		super(VideoRecorder, self).__init__()
-		
 		
 		self.video = cv2.VideoCapture(0)
 
@@ -126,11 +124,8 @@ while True:
 	Video.SmartColorRecognizer("green",(0,255,0),600, 3000)
 	Video.StartRecording()
 
-	key = cv2.waitKey(1)
-	if key == ord("q"):
-		break
+s
 
 Video.StopRecording()
-
 
 	
