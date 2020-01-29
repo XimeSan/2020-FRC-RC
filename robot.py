@@ -1,8 +1,8 @@
 import wpilib
 from wpilib.drive import MecanumDrive
-from state import state
-import oi
 import time
+import oi
+from state import state
 from networktables import NetworkTables
 #from ICanSee import VideoRecorder
 #import cv2
@@ -18,6 +18,7 @@ class MyRobot(wpilib.TimedRobot):
 		#self.Video = VideoRecorder()
 		#wpilib.CameraServer.launch()
 
+		self.chasis_controller = wpilib.Joystick(0)
 
 		self.front_left_motor = wpilib.Talon(3)
 		self.rear_left_motor = wpilib.Talon(1)
@@ -27,6 +28,7 @@ class MyRobot(wpilib.TimedRobot):
 		self.front_left_motor.setInverted(True)
 		self.rear_right_motor.setInverted(True)
 		self.rear_left_motor.setInverted(True)
+
 
 		self.drive = MecanumDrive(
 			self.front_left_motor,
@@ -49,6 +51,18 @@ class MyRobot(wpilib.TimedRobot):
 		self.Compressor = wpilib.Compressor(0)
 		self.PSV = self.Compressor.getPressureSwitchValue()
 
+		#cannon and sucker
+
+		self.cannon_motor_right = wpilib.Talon(4)
+		self.cannon_motor_left = wpilib.Talon(5)
+		self.sucker_motor = wpilib.Talon(6)
+
+		#cannon pneumatic
+		self.Compressor = wpilib.Compressor(0)
+		self.PSV = self.Compressor.getPressureSwitchValue()
+		self.cannon_piston = wpilib.Solenoid(0,0)
+
+
 	def autonomousPeriodic(self):
 
 		pass
@@ -56,18 +70,7 @@ class MyRobot(wpilib.TimedRobot):
 	 
 	def teleopPeriodic(self):
 
-		# while True:
-		# 	self.Video.VariablesInit()
-		# 	self.Video.SmartColorRecognizer("green",(0,255,0),600, 3000)
-		# 	self.Video.StartRecording()
-
-		# 	key = cv2.waitKey(1)
-		# 	if key == ord("q"):
-		# 		break
-
-		#Video.StopRecording()
-
-		oi.read_control_inputs(state["Controller"])
+		oi.ReadControllerInputs()
 
 		x = state["x_axis"]
 		y = state["y_axis"]
@@ -79,22 +82,16 @@ class MyRobot(wpilib.TimedRobot):
 
 		self.drive.driveCartesian(powerX * -0.7,powerY * 0.7, powerZ * -0.5, 0)
 
-		#cannon
+	
+		#pneumatics cannon
 
-		self.motor_cannon_right.set(state["motor_cannon_activated"])
-		self.motor_cannon_left.set(state["motor_cannon_activated"])
-
-		self.piston_cannon.set(state["piston_activated"])
-
-		#sucker
-
-		self.sucker_motor.set(state["sucker_activated"])
+		self.cannon_piston.set(state["cannon_piston_activated"])
 
 		if self.PSV:
 			self.Compressor.stop()
 		else:
 			self.Compressor.start()
-		
+
 
 if __name__ == '__main__':
 	wpilib.run(MyRobot)

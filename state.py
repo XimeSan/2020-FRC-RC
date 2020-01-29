@@ -1,7 +1,5 @@
 
 state = {
-#controller
-"Controller": "Piko",
 
 "x_axis": 0,
 "y_axis": 0, 
