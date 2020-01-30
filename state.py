@@ -5,6 +5,7 @@ state = {
 "y_axis": 0, 
 "z_axis": 0,
 
-"cannon": 0
+"cannon": 0,
+"sucker": 0
 
 }
