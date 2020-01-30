@@ -10,7 +10,8 @@ def ReadControllerInputs():
 	state["y_axis"] = chasis_controller.getRawAxis(1)
 	state["z_axis"] = chasis_controller.getRawAxis(4)
 
-
+	state["cannon"]	= chasis_controller.getRawAxis(3)
+	state["sucker"]	= chasis_controller.getRawAxis(2)
 
 
 
