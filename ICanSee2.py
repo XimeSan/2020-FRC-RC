@@ -64,7 +64,7 @@ class VideoRecorder():
 		elif color == "white":
 			self.color_data = self.white
 
-		_, contours, _ = cv2.findContours(self.color_data, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		contours,pene = cv2.findContours(self.color_data, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 		for pic, countour in enumerate(contours):
 			area = cv2.contourArea(countour)
 			if area > min_area:
@@ -73,7 +73,7 @@ class VideoRecorder():
 				cv2.putText(box, color, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, rectangle_color)
 				if color == "green":
 					approx = cv2.approxPolyDP(countour,0.01*cv2.arcLength(countour,True),True)
-					if len(approx) == 4:
+					if len(approx) == 6:
 						cv2.putText(self.frame, "Distance: " + str(area), (30,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
 						ObjectWidth = w + x 
 						ObjectHeight = y + h
@@ -123,7 +123,7 @@ while True:
 	
 	Video.VariablesInit()
 	Video.SmartColorRecognizer("green",(0,255,0),600, 3000)
-	#Video.StartRecording()
+	Video.StartRecording()
 	key = cv2.waitKey(1)
 	if key == ord("q"):
 		break
