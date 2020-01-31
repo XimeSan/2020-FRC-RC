@@ -85,26 +85,34 @@ class VideoRecorder():
 					# determines the position of the given shape
 					
 						if ObjectWidth < self.q_width and ObjectHeight > (self.q_height)*2:
+							print (self.hexagon_status)
 							self.hexagon_status = "Bottom Left"
 						elif ObjectWidth < self.q_width and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
+							print (self.hexagon_status)
 							self.hexagon_status = "Middle Left"
 						elif ObjectWidth < self.q_width and ObjectHeight < self.q_height:
+							print (self.hexagon_status)
 							self.hexagon_status = "Top Left"
 						elif ObjectWidth > (self.q_width)*2 and ObjectHeight > (self.q_height)*2:
+							print (self.hexagon_status)
 							self.hexagon_status = "Bottom Right"
 						elif ObjectWidth > (self.q_width)*2 and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
+							print (self.hexagon_status)
 							self.hexagon_status = "Middle Right"
 						elif ObjectWidth > (self.q_width)*2 and ObjectHeight < self.q_height:
+							print (self.hexagon_status)
 							self.hexagon_status = "Top Right"
 						elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight < self.q_height:
+							print (self.hexagon_status)
 							self.hexagon_status = "Top Middle"
 						elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight > (self.q_height)*2:
+							print (self.hexagon_status)
 							self.hexagon_status = "Bottom Middle"
 						else:
+							print (self.hexagon_status)
 							self.hexagon_status = "Centered"
 				else:
 					pass
-		print(self.hexagon_status)
 
 
 	def StartRecording(self):

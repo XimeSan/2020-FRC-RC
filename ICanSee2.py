@@ -73,7 +73,7 @@ class VideoRecorder():
 				cv2.putText(box, color, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, rectangle_color)
 				if color == "green":
 					approx = cv2.approxPolyDP(countour,0.01*cv2.arcLength(countour,True),True)
-					if len(approx) == 6:
+					if len(approx) == 4:
 						cv2.putText(self.frame, "Distance: " + str(area), (30,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
 						ObjectWidth = w + x 
 						ObjectHeight = y + h
