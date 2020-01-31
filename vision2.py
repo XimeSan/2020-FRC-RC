@@ -1,3 +1,4 @@
+
 import cv2
 import numpy
 import time
@@ -22,8 +23,8 @@ class VideoRecorder():
 		self.q_height = self.height/3
 
 		#green_color_range
-		self.green_lower = numpy.array([38,70,15], numpy.uint8)
-		self.green_upper = numpy.array([73,255,255], numpy.uint8)
+		self.green_upper = numpy.array([43,223,109], numpy.uint8)
+		self.green_lower = numpy.array([13,92,42], numpy.uint8)
 
 	def VariablesInit(self):
 
@@ -42,9 +43,9 @@ class VideoRecorder():
 		# blur = cv2.GaussianBlur(self.frame ,(5,5), 0)
 		# self.image = cv2.Canny(blur,50,150)
 
-		self.HSV = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
+		#self.HSV = cv2.cvtColor(self.frame, cv2.COLOR_BGR2HSV)
 
-		self.green = cv2.inRange(self.HSV, self.green_lower, self.green_upper)
+		self.green = cv2.inRange(self.frame, self.green_lower, self.green_upper)
 
 
 	def SmartColorRecognizer(self,color,rectangle_color,min_area,max_area):
@@ -73,37 +74,37 @@ class VideoRecorder():
 				cv2.putText(box, color, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, rectangle_color)
 				if color == "green":
 					approx = cv2.approxPolyDP(countour,0.01*cv2.arcLength(countour,True),True)
-					if len(approx) == 6:
-						cv2.putText(self.frame, "Distance: " + str(area), (30,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
-						ObjectWidth = w + x 
-						ObjectHeight = y + h
-					
+					#if len(approx) == 6:
+					cv2.putText(self.frame, "Distance: " + str(area), (30,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
+					ObjectWidth = w + x 
+					ObjectHeight = y + h
+				
 					# ObjectHeight = 
 					# height/3 = 240 
 					# width/3 = 426 
 					
 					# determines the position of the given shape
 					
-						if ObjectWidth < self.q_width and ObjectHeight > (self.q_height)*2:
-							self.hexagon_status = "Bottom Left"
-						elif ObjectWidth < self.q_width and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
-							self.hexagon_status = "Middle Left"
-						elif ObjectWidth < self.q_width and ObjectHeight < self.q_height:
-							self.hexagon_status = "Top Left"
-						elif ObjectWidth > (self.q_width)*2 and ObjectHeight > (self.q_height)*2:
-							self.hexagon_status = "Bottom Right"
-						elif ObjectWidth > (self.q_width)*2 and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
-							self.hexagon_status = "Middle Right"
-						elif ObjectWidth > (self.q_width)*2 and ObjectHeight < self.q_height:
-							self.hexagon_status = "Top Right"
-						elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight < self.q_height:
-							self.hexagon_status = "Top Middle"
-						elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight > (self.q_height)*2:
-							self.hexagon_status = "Bottom Middle"
-						else:
-							self.hexagon_status = "Centered"
-				else:
-					pass
+					if ObjectWidth < self.q_width and ObjectHeight > (self.q_height)*2:
+						self.hexagon_status = "Bottom Left"
+					elif ObjectWidth < self.q_width and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
+						self.hexagon_status = "Middle Left"
+					elif ObjectWidth < self.q_width and ObjectHeight < self.q_height:
+						self.hexagon_status = "Top Left"
+					elif ObjectWidth > (self.q_width)*2 and ObjectHeight > (self.q_height)*2:
+						self.hexagon_status = "Bottom Right"
+					elif ObjectWidth > (self.q_width)*2 and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
+						self.hexagon_status = "Middle Right"
+					elif ObjectWidth > (self.q_width)*2 and ObjectHeight < self.q_height:
+						self.hexagon_status = "Top Right"
+					elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight < self.q_height:
+						self.hexagon_status = "Top Middle"
+					elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight > (self.q_height)*2:
+						self.hexagon_status = "Bottom Middle"
+					else:
+						self.hexagon_status = "Centered"
+			else:
+				pass
 
 
 	def StartRecording(self):

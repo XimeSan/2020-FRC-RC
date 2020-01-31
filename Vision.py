@@ -10,10 +10,10 @@ green_upper = numpy.array([73,255,255], numpy.uint8)
 
 def VisionOn():
 
-	check,frame = video.read()
+	check,frame = video.read(0)
 
-	#HSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-	green = cv2.inRange(frame, green_lower, green_upper)
+	HSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+	green = cv2.inRange(HSV, green_lower, green_upper)
 
 #	cv2.imshow("Color Tracking",frame)
 
