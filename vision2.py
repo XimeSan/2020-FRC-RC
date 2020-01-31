@@ -106,6 +106,8 @@ class VideoRecorder():
 			else:
 				pass
 
+			print self.hexagon_status
+
 
 	def StartRecording(self):
 
