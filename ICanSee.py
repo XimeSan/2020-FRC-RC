@@ -104,6 +104,7 @@ class VideoRecorder():
 							self.hexagon_status = "Centered"
 				else:
 					pass
+		print(self.hexagon_status)
 
 
 	def StartRecording(self):
