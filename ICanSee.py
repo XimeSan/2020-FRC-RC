@@ -122,7 +122,7 @@ while True:
 	
 	Video.VariablesInit()
 	Video.SmartColorRecognizer("green",(0,255,0),600, 3000)
-	Video.StartRecording()
+	#Video.StartRecording()
 	key = cv2.waitKey(1)
 	if key == ord("q"):
 		break
