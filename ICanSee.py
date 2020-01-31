@@ -64,7 +64,7 @@ class VideoRecorder():
 		elif color == "white":
 			self.color_data = self.white
 
-		contours,hierarchy = cv2.findContours(self.color_data, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+		_, contours, _e = cv2.findContours(self.color_data, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 		for pic, countour in enumerate(contours):
 			area = cv2.contourArea(countour)
 			if area > min_area:
