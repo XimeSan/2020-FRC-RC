@@ -15,7 +15,7 @@ def VisionOn():
 	HSV = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 	green = cv2.inRange(HSV, green_lower, green_upper)
 
-	cv2.imshow("Color Tracking",frame)
+#	cv2.imshow("Color Tracking",frame)
 
 
 	color_data = "green"

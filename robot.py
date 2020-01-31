@@ -7,6 +7,7 @@ from networktables import NetworkTables
 #from ICanSee import VideoRecorder
 #import cv2
 #import numpy as np
+#Rasbperry Ip Adress: 10.57.16.87
 
 class MyRobot(wpilib.TimedRobot):
 
@@ -72,17 +73,30 @@ class MyRobot(wpilib.TimedRobot):
 
 		self.drive.driveCartesian(powerX * -0.7,powerY * 0.7, powerZ * -0.5, 0)
 
-		if state["cannon"] != 0:
+		if state["cannon"]:
 			self.right_cannon_motor.set(-1)
 			self.left_cannon_motor.set(1)
 		else:
 			self.right_cannon_motor.set(0)
 			self.left_cannon_motor.set(0)
 
-		if state["sucker"] != 0:
-			self.sucker.set(1)
+		if state["sucker"]:
+			self.sucker.set(0.6)
 		else:
 			self.sucker.set(0)
+
+
+		# if state["cannon"] != 0:
+		# 	self.right_cannon_motor.set(-1)
+		# 	self.left_cannon_motor.set(1)
+		# else:
+		# 	self.right_cannon_motor.set(0)
+		# 	self.left_cannon_motor.set(0)
+
+		# if state["sucker"] != 0:
+		# 	self.sucker.set(1)
+		# else:
+		# 	self.sucker.set(0)
 
 
 
