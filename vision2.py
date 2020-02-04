@@ -2,8 +2,12 @@
 import cv2
 import numpy
 import time
+from networktables import NetworkTables
 
-				
+
+NetworkTables.initialize(server='10.57.16.87')
+table = NetworkTables.getTable('Posicion')
+
 
 class VideoRecorder():
 	def __init__(self):
@@ -72,12 +76,12 @@ class VideoRecorder():
 				x,y,w,h = cv2.boundingRect(countour)
 				box = cv2.rectangle(self.frame, (x,y), (x+w, y+h),rectangle_color ,2)
 				cv2.putText(box, color, (x,y), cv2.FONT_HERSHEY_SIMPLEX, 0.7, rectangle_color)
-				if color == "green":
-					approx = cv2.approxPolyDP(countour,0.01*cv2.arcLength(countour,True),True)
-					#if len(approx) == 6:
-					cv2.putText(self.frame, "Distance: " + str(area), (30,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
-					ObjectWidth = w + x 
-					ObjectHeight = y + h
+				# if color == "green":
+				approx = cv2.approxPolyDP(countour,0.01*cv2.arcLength(countour,True),True)
+				#if len(approx) == 6:
+				cv2.putText(self.frame, "Distance: " + str(area), (30,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,255,0), 2)
+				ObjectWidth = w + x 
+				ObjectHeight = y + h
 				
 					# ObjectHeight = 
 					# height/3 = 240 
@@ -85,28 +89,44 @@ class VideoRecorder():
 					
 					# determines the position of the given shape
 					
-					if ObjectWidth < self.q_width and ObjectHeight > (self.q_height)*2:
-						self.hexagon_status = "Bottom Left"
-					elif ObjectWidth < self.q_width and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
-						self.hexagon_status = "Middle Left"
-					elif ObjectWidth < self.q_width and ObjectHeight < self.q_height:
-						self.hexagon_status = "Top Left"
-					elif ObjectWidth > (self.q_width)*2 and ObjectHeight > (self.q_height)*2:
-						self.hexagon_status = "Bottom Right"
-					elif ObjectWidth > (self.q_width)*2 and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
-						self.hexagon_status = "Middle Right"
-					elif ObjectWidth > (self.q_width)*2 and ObjectHeight < self.q_height:
-						self.hexagon_status = "Top Right"
-					elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight < self.q_height:
-						self.hexagon_status = "Top Middle"
-					elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight > (self.q_height)*2:
-						self.hexagon_status = "Bottom Middle"
-					else:
-						self.hexagon_status = "Centered"
-			else:
-				pass
-
-			print self.hexagon_status
+				if ObjectWidth < self.q_width and ObjectHeight > (self.q_height)*2:
+					self.hexagon_status = "Bottom Left"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+				elif ObjectWidth < self.q_width and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
+					self.hexagon_status = "Middle Left"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+				elif ObjectWidth < self.q_width and ObjectHeight < self.q_height:
+					self.hexagon_status = "Top Left"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+				elif ObjectWidth > (self.q_width)*2 and ObjectHeight > (self.q_height)*2:
+					self.hexagon_status = "Bottom Right"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+				elif ObjectWidth > (self.q_width)*2 and ObjectHeight < (self.q_height)*2 and ObjectHeight > self.q_height:
+					self.hexagon_status = "Middle Right"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+				elif ObjectWidth > (self.q_width)*2 and ObjectHeight < self.q_height:
+					self.hexagon_status = "Top Right"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+				elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight < self.q_height:
+					self.hexagon_status = "Top Middle"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+				elif ObjectWidth < (self.q_width)*2 and ObjectWidth > self.q_width and ObjectHeight > (self.q_height)*2:
+					self.hexagon_status = "Bottom Middle"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+				else:
+					self.hexagon_status = "Centered"
+					table.putString("Posicion", self.hexagon_status)
+					print (self.hexagon_status)
+		else:
+			pass
 
 
 	def StartRecording(self):

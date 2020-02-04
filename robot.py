@@ -4,25 +4,34 @@ import time
 import oi
 from state import state
 from networktables import NetworkTables
+import threading
+
+
 #from ICanSee import VideoRecorder
 #import cv2
 #import numpy as np
 #Rasbperry Ip Adress: 10.57.16.87
 
+
+
 class MyRobot(wpilib.TimedRobot):
 
 	def robotInit(self):
-
+		self.cond = threading.Condition()
+		self.notified = [False]	
+		# NetworkTables.initialize(server="10.57.16.87")
+		self.pc = NetworkTables.getTable("PositionOfColor")
+		
 		#NetworkTables.initialize(server='roborio-5716-frc.local')
 
 		#NetworkTables.initialize()
 		#self.sd = NetworkTables.getTable('SmartDashboard')
-		#wpilib.CameraServer.launch()
-		#cap = cv2.VideoCapture(0)
+		# wpilib.CameraServer.launch()
+		# cap = cv2.VideoCapture(0)
 
 
-		#self.Video = VideoRecorder()
-		#wpilib.CameraServer.launch()
+		# self.Video = VideoRecorder()
+		# wpilib.CameraServer.launch()
 
 		self.chasis_controller = wpilib.Joystick(0)
 
@@ -53,13 +62,36 @@ class MyRobot(wpilib.TimedRobot):
 		self.PSV = self.Compressor.getPressureSwitchValue()
 		self.cannon_piston = wpilib.Solenoid(0,0)
 
+	def connectionListener(self, connected, info):
+
+
+		with self.cond:
+
+			self.notified[0] = True
+			self.cond.notify()
+
+
+
+
+		NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
+
+		with self.cond:
+
+			print("Waiting")
+
+			if not self.notified[0]:
+
+				self.cond.wait()
 
 	def autonomousPeriodic(self):
 
 		pass
 
-	 
 	def teleopPeriodic(self):
+
+		position = self.pc.getString("Position", "")
+
+		print(position)
 
 		oi.ReadControllerInputs()
 
@@ -85,6 +117,8 @@ class MyRobot(wpilib.TimedRobot):
 		else:
 			self.sucker.set(0)
 
+		self.cannon_piston.set(state["piston_cannon"])
+
 
 		# if state["cannon"] != 0:
 		# 	self.right_cannon_motor.set(-1)
@@ -101,10 +135,10 @@ class MyRobot(wpilib.TimedRobot):
 
 
 	
-		# if self.PSV:
-		# 	self.Compressor.stop()
-		# else:
-		# 	self.Compressor.start()
+		if self.PSV:
+			self.Compressor.stop()
+		else:
+			self.Compressor.start()
 
 
 if __name__ == '__main__':

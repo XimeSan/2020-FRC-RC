@@ -6,6 +6,8 @@ state = {
 "z_axis": 0,
 
 "cannon": False,
-"sucker": False
+"sucker": False,
+"piston_cannon": False,
+"target_position":""
 
 }
