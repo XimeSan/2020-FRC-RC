@@ -6,7 +6,7 @@ from networktables import NetworkTables
 
 
 NetworkTables.initialize(server='10.57.16.87')
-table = NetworkTables.getTable('Posicion')
+table = NetworkTables.getTable('SmartDashboard')
 
 
 

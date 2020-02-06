@@ -19,7 +19,7 @@ class MyRobot(wpilib.TimedRobot):
 	def robotInit(self):
 		logging.basicConfig(level=logging.DEBUG)
 		NetworkTables.initialize()
-		self.pc = NetworkTables.getTable("Posicion")
+		self.pc = NetworkTables.getTable("SmartDashboard")
 		# self.cond = threading.Condition()
 		# self.notified = [False]
 		#NetworkTables.initialize(server='roborio-5716-frc.local')
@@ -65,9 +65,9 @@ class MyRobot(wpilib.TimedRobot):
 
 		position = self.pc.getString("Posicion", "Not jalando")
 
-		print(position)
+		print(x)
 
-		wpilib.DriverStation.reportWarning(position,True)
+		wpilib.DriverStation.reportWarning(x,True)
 
 	def teleopPeriodic(self):
 
