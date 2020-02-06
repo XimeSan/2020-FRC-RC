@@ -4,8 +4,7 @@ import numpy
 import time
 from networktables import NetworkTables
 
-
-NetworkTables.initialize(server='10.57.16.87')
+NetworkTables.initialize(server='10.57.16.2')
 table = NetworkTables.getTable('SmartDashboard')
 
 

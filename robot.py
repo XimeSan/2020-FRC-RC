@@ -65,9 +65,9 @@ class MyRobot(wpilib.TimedRobot):
 
 		position = self.pc.getString("Posicion", "Not jalando")
 
-		print(x)
+		print(position)
 
-		wpilib.DriverStation.reportWarning(x,True)
+		wpilib.DriverStation.reportWarning(position,True)
 
 	def teleopPeriodic(self):
 
