@@ -128,6 +128,7 @@ class VideoRecorder():
 		else:
 			pass
 
+		table.putNumber("Distancia", area)
 
 	def StartRecording(self):
 
