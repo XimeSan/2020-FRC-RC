@@ -5,6 +5,7 @@ import oi
 from state import state
 from networktables import NetworkTables
 import threading
+import logging
 
 
 #from ICanSee import VideoRecorder
@@ -13,22 +14,20 @@ import threading
 #Rasbperry Ip Adress: 10.57.16.87
 
 
-
 class MyRobot(wpilib.TimedRobot):
 
 	def robotInit(self):
-		self.cond = threading.Condition()
-		self.notified = [False]	
-		# NetworkTables.initialize(server="10.57.16.87")
-		self.pc = NetworkTables.getTable("PositionOfColor")
-		
+		logging.basicConfig(level=logging.DEBUG)
+		NetworkTables.initialize()
+		self.pc = NetworkTables.getTable("Posicion")
+		# self.cond = threading.Condition()
+		# self.notified = [False]
 		#NetworkTables.initialize(server='roborio-5716-frc.local')
-
+		
 		#NetworkTables.initialize()
 		#self.sd = NetworkTables.getTable('SmartDashboard')
 		# wpilib.CameraServer.launch()
 		# cap = cv2.VideoCapture(0)
-
 
 		# self.Video = VideoRecorder()
 		# wpilib.CameraServer.launch()
@@ -62,36 +61,17 @@ class MyRobot(wpilib.TimedRobot):
 		self.PSV = self.Compressor.getPressureSwitchValue()
 		self.cannon_piston = wpilib.Solenoid(0,0)
 
-	def connectionListener(self, connected, info):
-
-
-		with self.cond:
-
-			self.notified[0] = True
-			self.cond.notify()
-
-
-
-
-		NetworkTables.addConnectionListener(connectionListener, immediateNotify=True)
-
-		with self.cond:
-
-			print("Waiting")
-
-			if not self.notified[0]:
-
-				self.cond.wait()
-
 	def autonomousPeriodic(self):
 
-		pass
+		position = self.pc.getString("Posicion", "Not jalando")
+
+		print(position)
+
+		wpilib.DriverStation.reportWarning(position,True)
 
 	def teleopPeriodic(self):
 
-		position = self.pc.getString("Position", "")
-
-		print(position)
+		# self.pc = NetworkTables.getTable("Posicion")
 
 		oi.ReadControllerInputs()
 

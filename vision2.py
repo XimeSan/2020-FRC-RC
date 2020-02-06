@@ -9,6 +9,7 @@ NetworkTables.initialize(server='10.57.16.87')
 table = NetworkTables.getTable('Posicion')
 
 
+
 class VideoRecorder():
 	def __init__(self):
 		
