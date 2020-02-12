@@ -39,6 +39,9 @@ class MyRobot(wpilib.TimedRobot):
 
 		self.sucker = wpilib.Talon(7)
 
+		self.hook1 = wpilib.Solenoid(5) 
+		self.hook2 = wpilib.Solenoid(6) 
+
 		self.front_left_motor = wpilib.Talon(3)
 		self.rear_left_motor = wpilib.Talon(1)
 		self.front_right_motor = wpilib.Talon(4)
@@ -84,7 +87,7 @@ class MyRobot(wpilib.TimedRobot):
 		powerZ = 0 if z < 0.20 and z > -0.20 else z
 
 		self.drive.driveCartesian(powerX * -0.7,powerY * 0.7, powerZ * -0.5, 0)
-
+#----------------------------------------------------------------------------------------------------------
 		if state["cannon"]:
 			self.right_cannon_motor.set(-1)
 			self.left_cannon_motor.set(1)
@@ -98,8 +101,78 @@ class MyRobot(wpilib.TimedRobot):
 			self.sucker.set(0)
 
 		self.cannon_piston.set(state["piston_cannon"])
+#------------------------------------------------------------------------------------------------------------
+#Modificaciones para el gancho 10/2/2020	
+		if state["hook"] == True and state["hook_status"] == False:
+			state["hook_status"] = True
+			time.sleep(.1)
+		elif state["hook"] == True and state["hook_status"] == True:
+			state["hook_status"] = False
+			time.sleep(.1)
+		if state["hook_status"] == True:
+			self.hook1.set(0.5)
+			self.hook2.set(0.5)
+		else:
+			self.hook1.set(0)
+			self.hook2.set(0)	
 
-
+#----------------------------------Semi automatico, cannon de rutina---------------------------------------------------
+		#cannon rutine		
+		if state["cannon2"]:
+			#enciende los motores del cañón
+			self.right_cannon_motor.set(-1)
+			self.left_cannon_motor.set(1)
+			#ocupas el for para que repita los pistones 5 veces
+			i = 0
+			for i in range(0,5):
+				#enciende el piston
+				state["piston_cannon"] = True
+				self.cannon_piston.set(state["piston_cannon"])
+				#espera 1 segundo
+				time.sleep(1)
+				#apaga el piston
+				state["piston_cannon"] = False
+				self.cannon_piston.set(state["piston_cannon"])
+				#espera un segundo antes de repetir la rutina
+				time.sleep(1)
+			#acabando la rutina apaga los motores
+			self.right_cannon_motor.set(0)
+			self.left_cannon_motor.set(0)
+		else: 
+			self.right_cannon_motor.set(0)
+			self.left_cannon_motor.set(0)
+			state["piston_cannon"] = False
+			self.cannon_piston.set(state["piston_cannon"])
+#------------------------------------Manual cannon motores-----------------------------------------------------
+		if state["cannon"] == True and state["cannon_status"] == False:
+			state["cannon_status"] = True
+			time.sleep(.1)
+		elif state["cannon"] == True and state["cannon_status"] == True:
+			state["cannon_status"] = False
+			time.sleep(.1)
+		if state["cannon_status"] == True:
+			self.right_cannon_motor.set(-1)
+			self.left_cannon_motor.set(1)
+		else:
+			self.right_cannon_motor.set(0)
+			self.left_cannon_motor.set(0)
+#------------------------------------Manual Sucker-----------------------------------------------------
+		if state["sucker"] == True and state["sucker_status"] == False:
+			state["sucker_status"] = True
+			time.sleep(.1)
+		elif state["sucker"] == True and state["sucker_status"] == True:
+			state["sucker_status"] = False
+			time.sleep(.1)
+		if state["sucker_status"] == True:
+			self.sucker.set(1)
+		else:
+			self.sucker.set(0)
+#-------------------------------------Manual cannon piston------------------------------------------------------	
+		if state["piston_cannon_fire"] == True:
+			self.cannon_piston.set(1)
+			time.sleep(.7)
+			self.cannon_piston.set(0)
+#---------------------------------------------------------------------------------------------------------------
 		# if state["cannon"] != 0:
 		# 	self.right_cannon_motor.set(-1)
 		# 	self.left_cannon_motor.set(1)
