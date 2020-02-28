@@ -10,16 +10,20 @@ def ReadControllerInputs():
 
 	gun_controller = wpilib.Joystick(1)
 
-	state["x_axis"] = chasis_controller.getRawAxis(0)
+	state["x_axis"] = chasis_controller.getRawAxis(4)
 	state["y_axis"] = chasis_controller.getRawAxis(1)
-	state["z_axis"] = chasis_controller.getRawAxis(4)
+	state["z_axis"] = chasis_controller.getRawAxis(0)
+	state["aling"] = chasis_controller.getRawButton(1)
 
-	state["sucker"] = gun_controller.getRawButton(2)
-	state["cannon"] = gun_controller.getRawButton(1)
-	state["hook"] = gun_controller.getRawButton(3)
-	state["piston_cannon"] = gun_controller.getRawButton(6)
-	state["cannon2"] = gun_controller.getRawButton(4)
-	state["piston_cannon_fire"] = gun_controller.getRawButton(7)
+	state["sucker"] = gun_controller.getRawButton(1)
+	state["cannon"] = gun_controller.getRawAxis(2)
+	state["hook"] = gun_controller.getRawButton(4)
+	state["piston_cannon"] = gun_controller.getRawAxis(3)
+	state["cannon2"] = gun_controller.getRawButton(8)
+	state["color_wheel"] = gun_controller.getRawButton(5)
+	state["color_wheel_2"] = gun_controller.getRawButton(6)
+	state["reverse_sucker"] = gun_controller.getRawButton(2)
+	#state["reverse_sucker"] = gun_controller.getRawButton(2)
 
 #Xbox 360 button bind
 #A=1
